@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Verde Vistas | Mountain & Tropical Escapes</title>
+
+  <!-- 1. Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- 2. Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 3. Lucide Icons (Vanilla) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- 4. Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            'forest': {
+              50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80',
+              500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d', 950: '#052e16',
+            },
+            'ocean': {
+              50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8',
+              500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- 5. Import Map for Google GenAI SDK -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@google/genai": "https://esm.run/@google/genai"
+      }
+    }
+    </script>
+
+  <style>
+    /* Smooth scrolling */
+    :root {
+      --scrollbar-color: #0369a1;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0c4a6e;
+    }
+
+    /* Hide scrollbar for the horizontal slider but allow functionality */
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+
+    .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Starry Background Animations */
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.7;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased font-sans relative">
+
+  <!-- HEADER -->
+  <header id="main-header"
+    class="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-lg bg-forest-600 text-white shadow-forest-500/30 shadow-lg">
+            <i data-lucide="mountain" class="w-7 h-7"></i>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-xl font-bold tracking-tight leading-none text-slate-800">VERDE VISTAS</span>
+            <span class="text-xs font-medium tracking-widest text-forest-600">MOUNTAIN ESCAPES</span>
+          </div>
+        </div>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-8">
+          <a href="#"
+            class="text-sm font-medium text-slate-600 hover:text-forest-600 transition-colors relative group">Home<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-forest-500 transition-all group-hover:w-full"></span></a>
+          <a href="#destinations"
+            class="text-sm font-medium text-slate-600 hover:text-forest-600 transition-colors relative group">Destinations<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-forest-500 transition-all group-hover:w-full"></span></a>
+          <a href="#tours"
+            class="text-sm font-medium text-slate-600 hover:text-forest-600 transition-colors relative group">Tours<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-forest-500 transition-all group-hover:w-full"></span></a>
+          <a href="#reviews"
+            class="text-sm font-medium text-slate-600 hover:text-forest-600 transition-colors relative group">Reviews<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-forest-500 transition-all group-hover:w-full"></span></a>
+          <a href="#blog"
+            class="text-sm font-medium text-slate-600 hover:text-forest-600 transition-colors relative group">Travel
+            Tips<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-forest-500 transition-all group-hover:w-full"></span></a>
+          <a href="#contact"
+            class="text-sm font-medium text-slate-600 hover:text-forest-600 transition-colors relative group">Contact<span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-forest-500 transition-all group-hover:w-full"></span></a>
+        </nav>
+
+        <!-- Actions -->
+        <div class="hidden lg:flex items-center gap-4">
+          <div
+            class="flex items-center rounded-full px-3 py-2 border border-slate-200 bg-slate-50 focus-within:border-forest-400 focus-within:ring-2 focus-within:ring-forest-100 transition-all">
+            <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+            <input type="text" placeholder="Search..."
+              class="bg-transparent border-none focus:outline-none text-sm ml-2 w-24 placeholder-slate-400 text-slate-700" />
+          </div>
+          <button
+            class="flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-forest-700 px-3 py-2 transition-colors">
+            <i data-lucide="log-in" class="w-[18px]"></i> Sign In
+          </button>
+          <button
+            class="bg-forest-600 text-white text-sm font-bold px-5 py-2.5 rounded-lg shadow-lg shadow-forest-500/30 hover:bg-forest-700 hover:shadow-forest-500/50 transition-all">
+            Register
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="lg:hidden text-slate-700 p-2">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div id="mobile-menu"
+      class="hidden lg:hidden bg-white absolute top-full left-0 w-full shadow-xl border-t border-slate-100 h-screen">
+      <div class="flex flex-col p-6 space-y-6">
+        <a href="#" class="text-xl font-medium text-slate-800 hover:text-forest-600">Home</a>
+        <a href="#destinations" class="text-xl font-medium text-slate-800 hover:text-forest-600">Destinations</a>
+        <a href="#tours" class="text-xl font-medium text-slate-800 hover:text-forest-600">Tours</a>
+        <a href="#reviews" class="text-xl font-medium text-slate-800 hover:text-forest-600">Reviews</a>
+        <a href="#blog" class="text-xl font-medium text-slate-800 hover:text-forest-600">Travel Tips</a>
+        <a href="#contact" class="text-xl font-medium text-slate-800 hover:text-forest-600">Contact</a>
+        <hr class="border-slate-100" />
+        <button
+          class="flex items-center justify-center gap-2 w-full py-4 rounded-xl border border-slate-200 text-slate-700 font-bold hover:bg-slate-50">
+          <i data-lucide="user" class="w-5 h-5"></i> Sign In
+        </button>
+        <button class="w-full py-4 rounded-xl bg-forest-600 text-white font-bold shadow-lg shadow-forest-500/30">
+          Register Now
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+
+    <!-- HERO SECTION -->
+    <section class="relative h-[calc(100vh-80px)] min-h-[600px] flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="https://picsum.photos/1920/1080?random=1" alt="Mountain Landscape"
+          class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/20 to-slate-900/60"></div>
+      </div>
+
+      <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-sm font-medium mb-8">
+          <span class="w-2 h-2 rounded-full bg-forest-400 animate-pulse"></span>
+          Discover the unexplored
+        </div>
+
+        <h1
+          class="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 leading-tight tracking-tight drop-shadow-xl">
+          Breathe in the <br />
+          <span class="text-forest-400">Mountain Air</span>
+        </h1>
+
+        <p class="text-xl md:text-2xl text-slate-100 mb-12 max-w-3xl mx-auto font-light leading-relaxed drop-shadow-md">
+          Experience the freshness of tropical forests and the majesty of high peaks. Curated journeys for the
+          eco-conscious traveler.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-5 justify-center items-center">
+          <button
+            class="group bg-forest-600 hover:bg-forest-500 text-white text-lg font-bold px-10 py-5 rounded-xl transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] flex items-center gap-2 transform hover:-translate-y-1">
+            Book Your Adventure <i data-lucide="chevron-right"
+              class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+          </button>
+          <button
+            class="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/30 text-white text-lg font-bold px-10 py-5 rounded-xl transition-all hover:border-white/50 text-shadow">
+            Explore Destinations
+          </button>
+        </div>
+      </div>
+      <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-50 to-transparent"></div>
+    </section>
+
+    <!-- DESTINATIONS SECTION -->
+    <section id="destinations" class="relative h-[90vh] bg-slate-50 overflow-hidden">
+      <!-- Background Vectors Container -->
+      <div id="dest-bg-container" class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Slide 0: Mountain -->
+        <div
+          class="dest-bg-item absolute bottom-0 left-[-10%] w-[60vh] h-[60vh] transition-transform duration-1000 ease-out text-forest-500 translate-y-10"
+          data-index="0">
+          <svg viewBox="0 0 400 300" class="w-full h-full" fill="currentColor" preserveAspectRatio="xMidYMax meet">
+            <path d="M189.5 50L0 300H400L250 100L189.5 50Z" fill-opacity="0.2" />
+            <path d="M100 300L200 150L300 300H100Z" fill-opacity="0.3" />
+          </svg>
+        </div>
+        <!-- Slide 1: Leaf -->
+        <div
+          class="dest-bg-item absolute bottom-0 right-[-10%] w-[70vh] h-[70vh] transition-transform duration-1000 ease-out text-ocean-500 translate-y-full"
+          data-index="1">
+          <svg viewBox="0 0 400 400" class="w-full h-full" fill="currentColor">
+            <path d="M200 400C200 400 250 250 350 200C250 150 200 0 200 0C200 0 150 150 50 200C150 250 200 400 200 400Z"
+              fill-opacity="0.2" />
+            <circle cx="200" cy="200" r="50" fill-opacity="0.1" />
+          </svg>
+        </div>
+        <!-- Slide 2: River -->
+        <div
+          class="dest-bg-item absolute bottom-0 left-[-5%] w-[80vh] h-[50vh] transition-transform duration-1000 ease-out text-forest-600 translate-y-full"
+          data-index="2">
+          <svg viewBox="0 0 400 300" class="w-full h-full" fill="currentColor">
+            <path d="M0 50C100 50 100 250 200 250C300 250 300 50 400 50V300H0V50Z" fill-opacity="0.2" />
+            <path d="M0 150C100 150 100 300 200 300H0V150Z" fill-opacity="0.3" />
+          </svg>
+        </div>
+        <!-- Slide 3: Palm -->
+        <div
+          class="dest-bg-item absolute bottom-[-10%] right-[-10%] w-[60vh] h-[70vh] transition-transform duration-1000 ease-out text-ocean-400 translate-y-full"
+          data-index="3">
+          <svg viewBox="0 0 400 400" class="w-full h-full" fill="currentColor">
+            <path d="M200 400L200 100M200 100L100 0M200 100L300 0M200 100L50 150M200 100L350 150" stroke="currentColor"
+              stroke-width="40" stroke-linecap="round" opacity="0.2" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Side Nav -->
+      <div class="absolute right-6 top-1/2 -translate-y-1/2 z-30 hidden md:flex flex-col items-center gap-4">
+        <div class="absolute top-4 bottom-4 w-0.5 bg-slate-200 -z-10"></div>
+        <div id="dest-nav-buttons" class="flex flex-col gap-4">
+          <!-- Generated via JS -->
+        </div>
+      </div>
+
+      <!-- Mobile Bottom Nav -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex md:hidden">
+        <div id="dest-mobile-nav"
+          class="flex gap-3 bg-white/90 backdrop-blur-md px-3 py-2 rounded-full border border-slate-200 shadow-xl">
+          <!-- Generated via JS -->
+        </div>
+      </div>
+
+      <!-- Horizontal Scroll Container -->
+      <div id="dest-scroll-container"
+        class="relative z-10 flex w-full h-full overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+
+        <!-- Destination 1 -->
+        <div class="dest-slide min-w-full h-full snap-center flex items-center justify-center p-4 md:p-20"
+          data-index="0">
+          <div class="dest-content w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center">
+            <div
+              class="dest-img relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 translate-y-0 opacity-100">
+              <img src="https://picsum.photos/800/600?random=101" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-6 left-6 text-white flex gap-4 text-sm font-medium">
+                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-4 h-4"></i> 7 Days</span>
+                <span class="bg-white/20 backdrop-blur px-2 py-0.5 rounded">$1,200</span>
+              </div>
+            </div>
+            <div
+              class="dest-text bg-white/80 backdrop-blur-xl border border-white/50 p-8 md:p-12 rounded-3xl shadow-xl transform transition-all duration-700 delay-200 translate-x-0 opacity-100">
+              <div class="flex items-center gap-2 mb-4"><span class="w-12 h-1 rounded-full bg-forest-500"></span><span
+                  class="text-sm font-bold uppercase tracking-wider text-forest-600">01 Highlight</span></div>
+              <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Andean Cloud Forest</h2>
+              <p class="text-xl font-medium mb-6 text-forest-700">Where the Earth touches the Sky</p>
+              <p class="text-slate-600 text-lg mb-8">Experience the mystical fog-covered peaks of the Andes. Trek
+                through mossy forests rich with orchids and hummingbirds.</p>
+              <div class="flex gap-6"><button class="bg-forest-600 text-white px-8 py-4 rounded-xl font-bold">Explore
+                  Details</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destination 2 -->
+        <div class="dest-slide min-w-full h-full snap-center flex items-center justify-center p-4 md:p-20"
+          data-index="1">
+          <div class="dest-content w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center md:flex-row-reverse">
+            <!-- Swapped order via CSS grid/flex logic handled in update function or utility classes -->
+            <div
+              class="dest-img order-1 md:order-2 relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 translate-y-12 opacity-50">
+              <img src="https://picsum.photos/800/600?random=102" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div
+              class="dest-text order-2 md:order-1 bg-white/80 backdrop-blur-xl border border-white/50 p-8 md:p-12 rounded-3xl shadow-xl transform transition-all duration-700 delay-200 -translate-x-20 opacity-0">
+              <div class="flex items-center gap-2 mb-4"><span class="w-12 h-1 rounded-full bg-ocean-500"></span><span
+                  class="text-sm font-bold uppercase tracking-wider text-ocean-600">02 Highlight</span></div>
+              <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Azure Alpine Lakes</h2>
+              <p class="text-xl font-medium mb-6 text-ocean-700">Reflections of Serenity</p>
+              <p class="text-slate-600 text-lg mb-8">Discover hidden glacial lakes nestled between jagged granite peaks.
+                The water is so pure you can see the bottom at 30 feet.</p>
+              <div class="flex gap-6"><button class="bg-ocean-600 text-white px-8 py-4 rounded-xl font-bold">Explore
+                  Details</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destination 3 -->
+        <div class="dest-slide min-w-full h-full snap-center flex items-center justify-center p-4 md:p-20"
+          data-index="2">
+          <div class="dest-content w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center">
+            <div
+              class="dest-img relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 translate-y-12 opacity-50">
+              <img src="https://picsum.photos/800/600?random=103" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div
+              class="dest-text bg-white/80 backdrop-blur-xl border border-white/50 p-8 md:p-12 rounded-3xl shadow-xl transform transition-all duration-700 delay-200 translate-x-20 opacity-0">
+              <div class="flex items-center gap-2 mb-4"><span class="w-12 h-1 rounded-full bg-forest-500"></span><span
+                  class="text-sm font-bold uppercase tracking-wider text-forest-600">03 Highlight</span></div>
+              <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Volcanic Rainforests</h2>
+              <p class="text-xl font-medium mb-6 text-forest-700">Fire and Flora</p>
+              <p class="text-slate-600 text-lg mb-8">Walk the path of ancient lava flows now reclaimed by vibrant
+                tropical vegetation. A perfect blend of raw power and life.</p>
+              <div class="flex gap-6"><button class="bg-forest-600 text-white px-8 py-4 rounded-xl font-bold">Explore
+                  Details</button></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Destination 4 -->
+        <div class="dest-slide min-w-full h-full snap-center flex items-center justify-center p-4 md:p-20"
+          data-index="3">
+          <div class="dest-content w-full max-w-5xl grid md:grid-cols-2 gap-8 items-center md:flex-row-reverse">
+            <div
+              class="dest-img order-1 md:order-2 relative h-[400px] md:h-[500px] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 translate-y-12 opacity-50">
+              <img src="https://picsum.photos/800/600?random=104" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div
+              class="dest-text order-2 md:order-1 bg-white/80 backdrop-blur-xl border border-white/50 p-8 md:p-12 rounded-3xl shadow-xl transform transition-all duration-700 delay-200 -translate-x-20 opacity-0">
+              <div class="flex items-center gap-2 mb-4"><span class="w-12 h-1 rounded-full bg-ocean-500"></span><span
+                  class="text-sm font-bold uppercase tracking-wider text-ocean-600">04 Highlight</span></div>
+              <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Coastal Cliffs</h2>
+              <p class="text-xl font-medium mb-6 text-ocean-700">Mountain Meets Ocean</p>
+              <p class="text-slate-600 text-lg mb-8">Stand on the edge of the world where towering green cliffs plunge
+                dramatically into the deep blue ocean.</p>
+              <div class="flex gap-6"><button class="bg-ocean-600 text-white px-8 py-4 rounded-xl font-bold">Explore
+                  Details</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none z-20">
+      </div>
+    </section>
+
+    <!-- TOURS SECTION -->
+    <section id="tours" class="py-24 px-4 bg-slate-50">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="text-forest-600 font-bold tracking-wider uppercase text-sm mb-2 block">Choose Your Path</span>
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Signature Mountain Journeys</h2>
+          <p class="text-slate-500 text-lg max-w-2xl mx-auto">Whether you seek the thrill of the summit or the peace of
+            the forest, we have a curated experience designed specifically for your travel style.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 lg:gap-12">
+          <!-- Tour 1 -->
+          <div
+            class="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
+            <div class="relative h-[450px] overflow-hidden">
+              <img src="https://picsum.photos/600/800?random=50"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-80">
+              </div>
+              <div
+                class="absolute top-6 left-6 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg">
+                SAVE 10%</div>
+              <div
+                class="absolute top-6 right-6 bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold px-4 py-1.5 rounded-full z-10">
+                Adrenaline Seekers</div>
+              <div class="absolute bottom-6 left-6 right-6 text-white">
+                <div class="flex items-center gap-2 mb-2 text-yellow-400"><i data-lucide="star"
+                    class="w-4 h-4 fill-current"></i> <span class="font-bold">4.9</span></div>
+                <h3 class="text-2xl font-bold leading-tight mb-2">High Altitude Summit Challenge</h3>
+                <div class="flex items-center text-slate-300 text-sm font-medium"><i data-lucide="clock"
+                    class="w-4 h-4 mr-1.5"></i> 5 Days / 4 Nights</div>
+              </div>
+            </div>
+            <div class="p-8 flex flex-col flex-grow">
+              <div class="mb-6 space-y-3 flex-grow">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Experience Includes</p>
+                <li class="flex items-start text-slate-600 text-sm"><i data-lucide="check"
+                    class="w-4 h-4 text-forest-500 mr-2 mt-0.5 shrink-0"></i> Technical Climbing Gear</li>
+                <li class="flex items-start text-slate-600 text-sm"><i data-lucide="check"
+                    class="w-4 h-4 text-forest-500 mr-2 mt-0.5 shrink-0"></i> Expert Sherpa Guides</li>
+              </div>
+              <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+                <div><span class="text-slate-400 text-xs font-medium">Starting from</span>
+                  <div class="text-3xl font-bold text-forest-700">$899</div>
+                </div>
+                <button
+                  class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-forest-600 transition-colors shadow-lg">View
+                  Details</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 2 -->
+          <div
+            class="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
+            <div class="relative h-[450px] overflow-hidden">
+              <img src="https://picsum.photos/600/800?random=60"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-80">
+              </div>
+              <div
+                class="absolute top-6 right-6 bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold px-4 py-1.5 rounded-full z-10">
+                Nature Lovers</div>
+              <div class="absolute bottom-6 left-6 right-6 text-white">
+                <div class="flex items-center gap-2 mb-2 text-yellow-400"><i data-lucide="star"
+                    class="w-4 h-4 fill-current"></i> <span class="font-bold">4.7</span></div>
+                <h3 class="text-2xl font-bold leading-tight mb-2">Misty Cloud Forest Immersion</h3>
+                <div class="flex items-center text-slate-300 text-sm font-medium"><i data-lucide="clock"
+                    class="w-4 h-4 mr-1.5"></i> 3 Days / 2 Nights</div>
+              </div>
+            </div>
+            <div class="p-8 flex flex-col flex-grow">
+              <div class="mb-6 space-y-3 flex-grow">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Experience Includes</p>
+                <li class="flex items-start text-slate-600 text-sm"><i data-lucide="check"
+                    class="w-4 h-4 text-forest-500 mr-2 mt-0.5 shrink-0"></i> Luxury Eco-Lodge</li>
+                <li class="flex items-start text-slate-600 text-sm"><i data-lucide="check"
+                    class="w-4 h-4 text-forest-500 mr-2 mt-0.5 shrink-0"></i> Bird Watching Tours</li>
+              </div>
+              <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+                <div><span class="text-slate-400 text-xs font-medium">Starting from</span>
+                  <div class="text-3xl font-bold text-forest-700">$549</div>
+                </div>
+                <button
+                  class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-forest-600 transition-colors shadow-lg">View
+                  Details</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tour 3 -->
+          <div
+            class="group flex flex-col bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-slate-100">
+            <div class="relative h-[450px] overflow-hidden">
+              <img src="https://picsum.photos/600/800?random=70"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-80">
+              </div>
+              <div
+                class="absolute top-6 left-6 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full z-10 shadow-lg">
+                SAVE 15%</div>
+              <div
+                class="absolute top-6 right-6 bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold px-4 py-1.5 rounded-full z-10">
+                Families</div>
+              <div class="absolute bottom-6 left-6 right-6 text-white">
+                <div class="flex items-center gap-2 mb-2 text-yellow-400"><i data-lucide="star"
+                    class="w-4 h-4 fill-current"></i> <span class="font-bold">4.8</span></div>
+                <h3 class="text-2xl font-bold leading-tight mb-2">Alpine Valley Family Trek</h3>
+                <div class="flex items-center text-slate-300 text-sm font-medium"><i data-lucide="clock"
+                    class="w-4 h-4 mr-1.5"></i> 7 Days / 6 Nights</div>
+              </div>
+            </div>
+            <div class="p-8 flex flex-col flex-grow">
+              <div class="mb-6 space-y-3 flex-grow">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Experience Includes</p>
+                <li class="flex items-start text-slate-600 text-sm"><i data-lucide="check"
+                    class="w-4 h-4 text-forest-500 mr-2 mt-0.5 shrink-0"></i> Easy Pace Hiking</li>
+                <li class="flex items-start text-slate-600 text-sm"><i data-lucide="check"
+                    class="w-4 h-4 text-forest-500 mr-2 mt-0.5 shrink-0"></i> Kids Nature Workshops</li>
+              </div>
+              <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
+                <div><span class="text-slate-400 text-xs font-medium">Starting from</span>
+                  <div class="text-3xl font-bold text-forest-700">$1,599</div>
+                </div>
+                <button
+                  class="bg-slate-900 text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-forest-600 transition-colors shadow-lg">View
+                  Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consultation CTA -->
+        <div class="mt-20 relative rounded-3xl overflow-hidden bg-forest-900 text-white shadow-2xl">
+          <div class="absolute inset-0 opacity-10"><svg class="h-full w-full" viewBox="0 0 100 100"
+              preserveAspectRatio="none">
+              <path d="M0 100 L50 0 L100 100" fill="white" />
+            </svg></div>
+          <div
+            class="relative z-10 px-8 py-12 md:px-16 md:py-16 flex flex-col md:flex-row items-center justify-between gap-10">
+            <div class="flex-1">
+              <div
+                class="inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs font-medium text-forest-200 mb-4 border border-white/10">
+                <i data-lucide="user" class="w-3.5 h-3.5"></i> Expert Guidance
+              </div>
+              <h3 class="text-3xl font-bold mb-4">Unsure which peak to conquer?</h3>
+              <p class="text-slate-300 text-lg leading-relaxed max-w-xl">Our certified mountain guides are here to help
+                you plan the perfect itinerary. No automated bots, just real explorers.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4 shrink-0">
+              <button
+                class="bg-white text-forest-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-100 transition-colors flex items-center gap-2 shadow-lg"><i
+                  data-lucide="phone" class="w-5 h-5"></i> Talk to an Expert</button>
+              <button
+                class="bg-transparent border border-white/30 text-white px-8 py-4 rounded-xl font-bold hover:bg-white/10 transition-colors flex items-center gap-2"><i
+                  data-lucide="calendar-check" class="w-5 h-5"></i> Schedule Call</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section id="reviews" class="py-28 px-4 relative overflow-hidden bg-slate-50">
+      <div class="absolute inset-0 opacity-10 pointer-events-none">
+        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop"
+          class="w-full h-full object-cover grayscale" />
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-50 via-transparent to-slate-50"></div>
+      </div>
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">Traveler Diaries</h2>
+          <div class="flex justify-center items-center gap-2 mb-4">
+            <div class="h-0.5 w-12 bg-forest-500"></div>
+            <p class="text-slate-500 font-medium">Real stories from real trekkers</p>
+            <div class="h-0.5 w-12 bg-forest-500"></div>
+          </div>
+          <div class="inline-flex items-center gap-2 bg-yellow-50 px-4 py-2 rounded-full border border-yellow-100"><i
+              data-lucide="star" class="w-4 h-4 text-yellow-500 fill-current"></i><span
+              class="font-bold text-slate-800 text-sm">4.9/5 Average Rating</span></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 items-start">
+          <!-- Review 1 -->
+          <div
+            class="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200 border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center relative group">
+            <i data-lucide="quote"
+              class="absolute top-6 right-6 text-slate-100 group-hover:text-forest-100 transition-colors w-14 h-14 fill-current"></i>
+            <div class="flex flex-col items-center gap-3 mb-6 relative z-10">
+              <div class="relative">
+                <img src="https://picsum.photos/100/100?random=8"
+                  class="w-20 h-20 rounded-full object-cover border-4 border-slate-50 shadow-sm" />
+                <div
+                  class="absolute -bottom-1 -right-1 bg-forest-500 text-white p-1.5 rounded-full border-2 border-white">
+                  <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-lg">Sarah Jenkins</h4>
+                <p class="text-forest-600 text-xs font-bold uppercase tracking-wider">California, USA</p>
+              </div>
+            </div>
+            <p class="text-slate-600 leading-relaxed italic mb-6 relative z-10">"The most refreshing vacation I've ever
+              had. The mix of mountain hiking and forest relaxation was perfectly balanced."</p>
+            <div class="mt-auto pt-6 border-t border-slate-100 w-full flex justify-between items-center"><span
+                class="text-xs text-slate-400 font-medium">Verified Trip</span>
+              <div class="flex gap-0.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Review 2 (Staggered) -->
+          <div
+            class="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200 border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center relative group">
+            <i data-lucide="quote"
+              class="absolute top-6 right-6 text-slate-100 group-hover:text-forest-100 transition-colors w-14 h-14 fill-current"></i>
+            <div class="flex flex-col items-center gap-3 mb-6 relative z-10">
+              <div class="relative">
+                <img src="https://picsum.photos/100/100?random=9"
+                  class="w-20 h-20 rounded-full object-cover border-4 border-slate-50 shadow-sm" />
+                <div
+                  class="absolute -bottom-1 -right-1 bg-forest-500 text-white p-1.5 rounded-full border-2 border-white">
+                  <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-lg">Marcus Chen</h4>
+                <p class="text-forest-600 text-xs font-bold uppercase tracking-wider">Singapore</p>
+              </div>
+            </div>
+            <p class="text-slate-600 leading-relaxed italic mb-6 relative z-10">"Professional guides and stunning
+              locations. Verde Vistas took care of every detail. The 'Summit Challenge' was tough but incredibly
+              rewarding."</p>
+            <div class="mt-auto pt-6 border-t border-slate-100 w-full flex justify-between items-center"><span
+                class="text-xs text-slate-400 font-medium">Verified Trip</span>
+              <div class="flex gap-0.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Review 3 -->
+          <div
+            class="bg-white p-8 rounded-2xl shadow-xl shadow-slate-200 border border-slate-100 hover:shadow-2xl transition-all duration-500 flex flex-col items-center text-center relative group">
+            <i data-lucide="quote"
+              class="absolute top-6 right-6 text-slate-100 group-hover:text-forest-100 transition-colors w-14 h-14 fill-current"></i>
+            <div class="flex flex-col items-center gap-3 mb-6 relative z-10">
+              <div class="relative">
+                <img src="https://picsum.photos/100/100?random=10"
+                  class="w-20 h-20 rounded-full object-cover border-4 border-slate-50 shadow-sm" />
+                <div
+                  class="absolute -bottom-1 -right-1 bg-forest-500 text-white p-1.5 rounded-full border-2 border-white">
+                  <i data-lucide="star" class="w-3 h-3 fill-current"></i>
+                </div>
+              </div>
+              <div>
+                <h4 class="font-bold text-slate-900 text-lg">Elena Rodriguez</h4>
+                <p class="text-forest-600 text-xs font-bold uppercase tracking-wider">Madrid, Spain</p>
+              </div>
+            </div>
+            <p class="text-slate-600 leading-relaxed italic mb-6 relative z-10">"A beautiful experience. The eco-lodges
+              were comfortable and sustainable. I particularly loved the local food tours after the long treks."</p>
+            <div class="mt-auto pt-6 border-t border-slate-100 w-full flex justify-between items-center"><span
+                class="text-xs text-slate-400 font-medium">Verified Trip</span>
+              <div class="flex gap-0.5">
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-forest-400"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <button
+            class="inline-flex items-center gap-3 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold hover:border-forest-500 hover:text-forest-600 transition-all shadow-sm hover:shadow-md">
+            <i data-lucide="pen-tool" class="w-5 h-5"></i> Write a Review
+          </button>
+        </div>
+      </div>
+      <div
+        class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-white to-transparent pointer-events-none z-20">
+      </div>
+    </section>
+
+    <!-- BLOG SECTION -->
+    <section id="blog" class="py-24 px-4 bg-white">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="text-forest-600 font-bold tracking-wider uppercase text-sm mb-2 block">Our Blog</span>
+          <h2 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">The Explorer's Journal</h2>
+          <p class="text-slate-500 text-lg max-w-2xl mx-auto">Tips, guides, and stories from the trail.</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <!-- Post 1 -->
+          <article class="group cursor-pointer flex flex-col h-full">
+            <div class="overflow-hidden rounded-2xl mb-5 aspect-[4/3] relative">
+              <img src="https://picsum.photos/600/400?random=11"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div
+                class="absolute top-4 left-4 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider text-forest-800">
+                Travel Essentials</div>
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center text-xs text-slate-400 mb-3 font-medium"><i data-lucide="calendar"
+                  class="w-3.5 h-3.5 mr-1.5"></i> Oct 12, 2023</div>
+              <h3
+                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-forest-700 transition-colors leading-tight">
+                Packing for the Tropics: The Ultimate Guide</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">Don't let the humidity catch you off guard. Here is
+                our list of breathable fabrics and essential gear.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-slate-100"><span
+                class="text-sm font-bold text-slate-900 flex items-center gap-2 group-hover:gap-3 transition-all">Read
+                Article <i data-lucide="arrow-right" class="w-4 h-4 text-forest-500"></i></span></div>
+          </article>
+          <!-- Post 2 -->
+          <article class="group cursor-pointer flex flex-col h-full">
+            <div class="overflow-hidden rounded-2xl mb-5 aspect-[4/3] relative">
+              <img src="https://picsum.photos/600/400?random=12"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div
+                class="absolute top-4 left-4 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider text-forest-800">
+                Destinations</div>
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center text-xs text-slate-400 mb-3 font-medium"><i data-lucide="calendar"
+                  class="w-3.5 h-3.5 mr-1.5"></i> Sep 28, 2023</div>
+              <h3
+                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-forest-700 transition-colors leading-tight">
+                Top 5 Hidden Mountain Trails</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">Escape the crowds and discover these secluded paths
+                that offer the best panoramic views of the valley.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-slate-100"><span
+                class="text-sm font-bold text-slate-900 flex items-center gap-2 group-hover:gap-3 transition-all">Read
+                Article <i data-lucide="arrow-right" class="w-4 h-4 text-forest-500"></i></span></div>
+          </article>
+          <!-- Post 3 -->
+          <article class="group cursor-pointer flex flex-col h-full">
+            <div class="overflow-hidden rounded-2xl mb-5 aspect-[4/3] relative">
+              <img src="https://picsum.photos/600/400?random=13"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+              <div
+                class="absolute top-4 left-4 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider text-forest-800">
+                Photography</div>
+            </div>
+            <div class="flex-grow">
+              <div class="flex items-center text-xs text-slate-400 mb-3 font-medium"><i data-lucide="calendar"
+                  class="w-3.5 h-3.5 mr-1.5"></i> Sep 15, 2023</div>
+              <h3
+                class="text-xl font-bold text-slate-900 mb-3 group-hover:text-forest-700 transition-colors leading-tight">
+                Wildlife Photography Handbook</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">How to capture the perfect shot of a hummingbird
+                without disturbing its natural habitat.</p>
+            </div>
+            <div class="mt-auto pt-4 border-t border-slate-100"><span
+                class="text-sm font-bold text-slate-900 flex items-center gap-2 group-hover:gap-3 transition-all">Read
+                Article <i data-lucide="arrow-right" class="w-4 h-4 text-forest-500"></i></span></div>
+          </article>
+        </div>
+
+        <div class="bg-slate-50 rounded-3xl p-8 md:p-12">
+          <div class="flex items-center gap-3 mb-8">
+            <div class="p-2 bg-ocean-100 text-ocean-600 rounded-lg"><i data-lucide="book-open" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900">Field Notes & Quick Tips</h3>
+          </div>
+          <div class="grid md:grid-cols-3 gap-8 md:gap-12">
+            <div
+              class="flex flex-col border-b md:border-b-0 md:border-r border-slate-200 last:border-0 pb-6 md:pb-0 pr-0 md:pr-8">
+              <span class="text-xs font-bold text-ocean-600 mb-2 block">Health & Safety</span>
+              <h4 class="text-lg font-bold text-slate-800 mb-2 hover:text-forest-600 cursor-pointer transition-colors">
+                Acclimatization 101</h4>
+              <p class="text-slate-500 text-sm leading-relaxed mb-1">Drink plenty of water and avoid alcohol for the
+                first 24 hours at high altitude.</p>
+            </div>
+            <div
+              class="flex flex-col border-b md:border-b-0 md:border-r border-slate-200 last:border-0 pb-6 md:pb-0 pr-0 md:pr-8">
+              <span class="text-xs font-bold text-ocean-600 mb-2 block">Sustainability</span>
+              <h4 class="text-lg font-bold text-slate-800 mb-2 hover:text-forest-600 cursor-pointer transition-colors">
+                Eco-Friendly Travel Kit</h4>
+              <p class="text-slate-500 text-sm leading-relaxed mb-1">Simple swaps for plastic bottles and cutlery that
+                fit in your day pack.</p>
+            </div>
+            <div
+              class="flex flex-col border-b md:border-b-0 md:border-r border-slate-200 last:border-0 pb-6 md:pb-0 pr-0 md:pr-8">
+              <span class="text-xs font-bold text-ocean-600 mb-2 block">Planning</span>
+              <h4 class="text-lg font-bold text-slate-800 mb-2 hover:text-forest-600 cursor-pointer transition-colors">
+                Best Season for Cloud Forests</h4>
+              <p class="text-slate-500 text-sm leading-relaxed mb-1">Why the shoulder season might be the best time to
+                visit for fewer crowds.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-12 text-center">
+          <a href="#"
+            class="inline-flex items-center gap-3 bg-white border border-slate-200 text-slate-700 px-8 py-4 rounded-xl font-bold hover:border-forest-500 hover:text-forest-600 transition-all shadow-sm hover:shadow-md">
+            View All Blogs <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="pt-80 pb-24 px-4 relative text-white bg-slate-900">
+      <div
+        class="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-white via-white/0 via-[15%] to-transparent pointer-events-none z-20">
+      </div>
+      <!-- Starry Background -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-forest-950"></div>
+        <div class="absolute inset-0 opacity-70"
+          style="background-image: radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px), radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px), radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px); background-size: 550px 550px, 350px 350px, 250px 250px; background-position: 0 0, 40px 60px, 130px 270px; animation: twinkle 5s infinite alternate;">
+        </div>
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-ocean-500/10 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-forest-500/10 rounded-full blur-[100px]"></div>
+      </div>
+
+      <div class="max-w-7xl mx-auto relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div
+              class="inline-block bg-white/10 backdrop-blur border border-white/20 px-3 py-1 rounded-full text-xs font-bold text-forest-300 mb-6 uppercase tracking-wider">
+              Get in Touch</div>
+            <h2 class="text-5xl font-bold mb-6 leading-tight">Ready to start your <br /><span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-forest-300 to-ocean-300">Next
+                Expedition?</span></h2>
+            <p class="text-slate-300 mb-12 text-lg leading-relaxed max-w-md">Our base camps are open 24/7. Reach out to
+              our travel specialists to plan your custom mountain escape.</p>
+            <div class="space-y-8">
+              <div
+                class="group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all cursor-pointer">
+                <div class="bg-forest-500/20 p-4 rounded-xl mr-6 group-hover:scale-110 transition-transform"><i
+                    data-lucide="map-pin" class="text-forest-400 w-7 h-7"></i></div>
+                <div>
+                  <h4 class="font-bold text-xl mb-1">Headquarters</h4>
+                  <p class="text-slate-400">123 Mountain View Ave, Denver, CO</p>
+                </div>
+              </div>
+              <div
+                class="group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all cursor-pointer">
+                <div class="bg-ocean-500/20 p-4 rounded-xl mr-6 group-hover:scale-110 transition-transform"><i
+                    data-lucide="phone" class="text-ocean-400 w-7 h-7"></i></div>
+                <div>
+                  <h4 class="font-bold text-xl mb-1">Call Us</h4>
+                  <p class="text-slate-400">1.888.569.3032</p>
+                </div>
+              </div>
+              <div
+                class="group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 transition-all cursor-pointer">
+                <div class="bg-forest-500/20 p-4 rounded-xl mr-6 group-hover:scale-110 transition-transform"><i
+                    data-lucide="mail" class="text-forest-400 w-7 h-7"></i></div>
+                <div>
+                  <h4 class="font-bold text-xl mb-1">Email</h4>
+                  <p class="text-slate-400">info@verdevistas.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="relative">
+            <div
+              class="absolute inset-0 bg-gradient-to-tr from-forest-500/20 to-ocean-500/20 blur-xl transform rotate-3 scale-105 rounded-3xl">
+            </div>
+            <div
+              class="relative bg-slate-900/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-10 shadow-2xl">
+              <h3 class="text-2xl font-bold mb-8 text-white">Send us a Message</h3>
+              <form class="space-y-6">
+                <div class="grid grid-cols-2 gap-6">
+                  <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">First
+                      Name</label><input type="text"
+                      class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-forest-500 text-white placeholder-slate-600 transition-all"
+                      placeholder="Jane"></div>
+                  <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Last
+                      Name</label><input type="text"
+                      class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-forest-500 text-white placeholder-slate-600 transition-all"
+                      placeholder="Doe"></div>
+                </div>
+                <div><label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Email
+                    Address</label><input type="email"
+                    class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-forest-500 text-white placeholder-slate-600 transition-all"
+                    placeholder="jane@example.com"></div>
+                <div><label
+                    class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Message</label><textarea
+                    rows="4"
+                    class="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-forest-500 text-white placeholder-slate-600 transition-all resize-none"
+                    placeholder="Tell us about your dream trip..."></textarea></div>
+                <button type="button"
+                  class="w-full bg-gradient-to-r from-forest-600 to-ocean-600 text-white font-bold py-4 rounded-xl hover:shadow-lg hover:shadow-forest-500/25 hover:scale-[1.02] transition-all flex justify-center items-center gap-2">Send
+                  Message <i data-lucide="send" class="w-4 h-4"></i></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="bg-slate-50 border-t-4 border-forest-500 pt-16 pb-8 text-slate-600">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4 text-forest-700"><i data-lucide="mountain" class="w-6 h-6"></i><span
+              class="text-lg font-bold tracking-tight">VERDE VISTAS</span></div>
+          <p class="text-sm leading-relaxed mb-6">Specializing in eco-friendly mountain adventures and tropical
+            getaways. We believe in sustainable tourism that respects nature.</p>
+          <div class="flex gap-4">
+            <a href="#"
+              class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center hover:bg-forest-600 hover:text-white transition-colors"><i
+                data-lucide="facebook" class="w-4 h-4"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center hover:bg-forest-600 hover:text-white transition-colors"><i
+                data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center hover:bg-forest-600 hover:text-white transition-colors"><i
+                data-lucide="twitter" class="w-4 h-4"></i></a>
+            <a href="#"
+              class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center hover:bg-forest-600 hover:text-white transition-colors"><i
+                data-lucide="linkedin" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 mb-4">Company</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-forest-600">About Us</a></li>
+            <li><a href="#" class="hover:text-forest-600">Careers</a></li>
+            <li><a href="#" class="hover:text-forest-600">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 mb-4">Support</h4>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:text-forest-600">Contact Us</a></li>
+            <li><a href="#" class="hover:text-forest-600">FAQ</a></li>
+            <li><a href="#" class="hover:text-forest-600">Terms & Conditions</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold text-slate-900 mb-4">Newsletter</h4>
+          <p class="text-sm mb-4">Subscribe for latest travel deals.</p>
+          <div class="flex flex-col gap-2"><input type="email" placeholder="Your email"
+              class="bg-white border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:border-forest-500"><button
+              class="bg-slate-900 text-white text-sm font-semibold py-2 rounded-md hover:bg-forest-600 transition-colors">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-slate-400">
+        <p>&copy; 2024 Verde Vistas Travel. All rights reserved.</p>
+        <div class="flex gap-4 mt-4 md:mt-0"><a href="#" class="hover:text-slate-600">Sitemap</a><a href="#"
+            class="hover:text-slate-600">Cookies</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- AI ASSISTANT WIDGET -->
+  <div id="ai-widget-container">
+    <!-- Floating Button -->
+    <button id="ai-toggle-btn"
+      class="fixed bottom-6 right-6 z-50 p-4 rounded-full shadow-2xl transition-all duration-300 bg-gradient-to-r from-forest-500 to-ocean-500 hover:scale-110">
+      <div class="relative">
+        <i data-lucide="message-circle" class="text-white w-7 h-7"></i>
+        <span class="absolute -top-1 -right-1 flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-red-400"></span>
+        </span>
+      </div>
+      <!-- X Icon for open state -->
+      <i data-lucide="x" class="text-white w-6 h-6 hidden"></i>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="ai-chat-window"
+      class="hidden fixed bottom-24 right-6 w-80 md:w-96 bg-white rounded-2xl shadow-2xl z-50 flex flex-col overflow-hidden border border-slate-200 animate-[fadeIn_0.3s_ease-out]">
+      <div class="bg-slate-900 p-4 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div class="bg-forest-500 p-1.5 rounded-full"><i data-lucide="sparkles" class="text-white w-4 h-4"></i></div>
+          <div>
+            <h3 class="text-white font-bold text-sm">Verde Assistant</h3>
+            <p class="text-slate-400 text-xs">Powered by Gemini AI</p>
+          </div>
+        </div>
+      </div>
+      <div id="ai-messages" class="flex-1 h-80 overflow-y-auto p-4 bg-slate-50 space-y-4">
+        <!-- Initial Message -->
+        <div class="flex justify-start">
+          <div
+            class="max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm bg-white text-slate-700 border border-slate-100 rounded-bl-none">
+            Hola! I am Verde, your AI guide. Ask me about our mountain destinations or travel tips!
+          </div>
+        </div>
+      </div>
+      <!-- Loading Indicator -->
+      <div id="ai-loading" class="hidden px-4 pb-2">
+        <div class="flex justify-start">
+          <div
+            class="bg-white text-slate-500 px-4 py-3 rounded-2xl rounded-bl-none border border-slate-100 text-sm flex items-center gap-1">
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></span>
+            <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+          </div>
+        </div>
+      </div>
+      <form id="ai-form" class="p-3 border-t border-slate-100 bg-white">
+        <div class="flex items-center gap-2">
+          <input type="text" id="ai-input" placeholder="Ask about mountains..."
+            class="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-sm focus:outline-none focus:border-ocean-500 focus:ring-1 focus:ring-ocean-500">
+          <button type="submit"
+            class="p-2 bg-forest-600 text-white rounded-full hover:bg-forest-700 transition-colors"><i
+              data-lucide="send" class="w-4.5 h-4.5"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script type="module">
+    import { GoogleGenAI } from "@google/genai";
+
+    // *** CONFIGURATION ***
+    // IMPORTANT: Replace this with your actual API Key
+    const API_KEY = "YOUR_API_KEY_HERE";
+
+    // 1. Initialize Lucide Icons
+    lucide.createIcons();
+
+    // 2. Mobile Menu Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // 3. Destinations Horizontal Scroll Logic
+    const destContainer = document.getElementById('dest-scroll-container');
+    const bgItems = document.querySelectorAll('.dest-bg-item');
+    const slides = document.querySelectorAll('.dest-slide');
+    const navContainer = document.getElementById('dest-nav-buttons');
+    const mobileNavContainer = document.getElementById('dest-mobile-nav');
+    let activeIndex = 0;
+
+    // Generate Nav Buttons
+    slides.forEach((slide, idx) => {
+      // Desktop Btn
+      const btn = document.createElement('button');
+      const destName = slide.querySelector('h2').innerText;
+      btn.className = `dest-nav-btn group relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 ${idx === 0 ? 'border-forest-500 text-forest-600 scale-110 shadow-lg bg-white' : 'border-slate-300 text-slate-400 hover:border-forest-300 bg-white'}`;
+      btn.innerHTML = `
+                <span class="text-xs font-bold font-sans">0${idx + 1}</span>
+                <span class="absolute right-12 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-slate-800 text-white text-xs px-2 py-1 rounded">${destName}</span>
+            `;
+      btn.addEventListener('click', () => {
+        const width = destContainer.offsetWidth;
+        destContainer.scrollTo({ left: width * idx, behavior: 'smooth' });
+      });
+      navContainer.appendChild(btn);
+
+      // Mobile Btn
+      if (mobileNavContainer) {
+        const mBtn = document.createElement('button');
+        mBtn.className = `dest-mobile-btn w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${idx === 0 ? 'bg-forest-600 text-white scale-110 shadow-md' : 'bg-transparent text-slate-500 hover:bg-slate-100'}`;
+        mBtn.innerText = idx + 1;
+        mBtn.addEventListener('click', () => {
+          const width = destContainer.offsetWidth;
+          destContainer.scrollTo({ left: width * idx, behavior: 'smooth' });
+        });
+        mobileNavContainer.appendChild(mBtn);
+      }
+    });
+
+    const updateDestinations = () => {
+      if (!destContainer) return;
+      const scrollLeft = destContainer.scrollLeft;
+      const width = destContainer.offsetWidth;
+      const newIndex = Math.round(scrollLeft / width);
+
+      if (newIndex !== activeIndex) {
+        activeIndex = newIndex;
+
+        // Update Nav Buttons
+        document.querySelectorAll('.dest-nav-btn').forEach((btn, idx) => {
+          if (idx === activeIndex) {
+            btn.className = 'dest-nav-btn group relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 border-forest-500 text-forest-600 scale-110 shadow-lg bg-white';
+          } else {
+            btn.className = 'dest-nav-btn group relative flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300 border-slate-300 text-slate-400 hover:border-forest-300 bg-white';
+          }
+        });
+
+        // Update Mobile Nav Buttons
+        document.querySelectorAll('.dest-mobile-btn').forEach((btn, idx) => {
+          if (idx === activeIndex) {
+            btn.className = 'dest-mobile-btn w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 bg-forest-600 text-white scale-110 shadow-md';
+          } else {
+            btn.className = 'dest-mobile-btn w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 bg-transparent text-slate-500 hover:bg-slate-100';
+          }
+        });
+
+        // Update Backgrounds (Pop up effect)
+        bgItems.forEach((item, idx) => {
+          if (idx === activeIndex) {
+            // Activate current
+            item.classList.remove('translate-y-full');
+            if (idx === 0) item.classList.add('translate-y-10'); // Slight offset for mountain
+            else item.classList.add('translate-y-0');
+          } else {
+            // Hide others
+            item.classList.remove('translate-y-0', 'translate-y-10');
+            item.classList.add('translate-y-full');
+          }
+        });
+
+        // Update Content Animations (Trigger classes based on index)
+        slides.forEach((slide, idx) => {
+          const img = slide.querySelector('.dest-img');
+          const text = slide.querySelector('.dest-text');
+
+          if (idx === activeIndex) {
+            img.classList.remove('translate-y-12', 'opacity-50');
+            img.classList.add('translate-y-0', 'opacity-100');
+
+            text.classList.remove('-translate-x-20', 'translate-x-20', 'opacity-0');
+            text.classList.add('translate-x-0', 'opacity-100');
+          } else {
+            img.classList.remove('translate-y-0', 'opacity-100');
+            img.classList.add('translate-y-12', 'opacity-50');
+
+            text.classList.remove('translate-x-0', 'opacity-100');
+            text.classList.add('opacity-0');
+            if (idx % 2 === 0) text.classList.add('-translate-x-20');
+            else text.classList.add('translate-x-20');
+          }
+        });
+      }
+    };
+
+    destContainer.addEventListener('scroll', updateDestinations);
+
+
+    // 4. AI Assistant Logic
+    const toggleBtn = document.getElementById('ai-toggle-btn');
+    const chatWindow = document.getElementById('ai-chat-window');
+    const msgContainer = document.getElementById('ai-messages');
+    const form = document.getElementById('ai-form');
+    const input = document.getElementById('ai-input');
+    const loading = document.getElementById('ai-loading');
+
+    // Icons inside toggle button
+    const msgIcon = toggleBtn.querySelector('.relative'); // Contains message circle + dot
+    const closeIcon = toggleBtn.querySelector('.text-white.w-6'); // X icon
+
+    let isChatOpen = false;
+
+    toggleBtn.addEventListener('click', () => {
+      isChatOpen = !isChatOpen;
+      if (isChatOpen) {
+        chatWindow.classList.remove('hidden');
+        toggleBtn.classList.remove('bg-gradient-to-r', 'from-forest-500', 'to-ocean-500');
+        toggleBtn.classList.add('bg-slate-800', 'rotate-90');
+        msgIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      } else {
+        chatWindow.classList.add('hidden');
+        toggleBtn.classList.add('bg-gradient-to-r', 'from-forest-500', 'to-ocean-500');
+        toggleBtn.classList.remove('bg-slate-800', 'rotate-90');
+        msgIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      }
+    });
+
+    const addMessage = (text, role) => {
+      const divWrapper = document.createElement('div');
+      divWrapper.className = `flex ${role === 'user' ? 'justify-end' : 'justify-start'}`;
+
+      const divContent = document.createElement('div');
+      divContent.className = `max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-relaxed shadow-sm ${role === 'user' ? 'bg-ocean-600 text-white rounded-br-none' : 'bg-white text-slate-700 border border-slate-100 rounded-bl-none'}`;
+      divContent.textContent = text;
+
+      divWrapper.appendChild(divContent);
+      msgContainer.appendChild(divWrapper);
+      msgContainer.scrollTop = msgContainer.scrollHeight;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      // Add User Message
+      addMessage(text, 'user');
+      input.value = '';
+
+      // Show Loading
+      loading.classList.remove('hidden');
+      msgContainer.scrollTop = msgContainer.scrollHeight;
+
+      try {
+        if (API_KEY === "YOUR_API_KEY_HERE") {
+          throw new Error("API Key missing");
+        }
+
+        const ai = new GoogleGenAI({ apiKey: API_KEY });
+        const model = "gemini-2.5-flash";
+        const systemInstruction = `You are "Verde," a helpful AI travel assistant for a company called "Verde Vistas." The company specializes in mountain vacations and tropical forest escapes. Keep answers concise (under 100 words).`;
+
+        const response = await ai.models.generateContent({
+          model: model,
+          contents: text,
+          config: { systemInstruction }
+        });
+
+        const aiResponse = response.text || "I'm having trouble thinking of a response right now.";
+        loading.classList.add('hidden');
+        addMessage(aiResponse, 'model');
+
+      } catch (error) {
+        console.error(error);
+        loading.classList.add('hidden');
+        if (error.message === "API Key missing") {
+          addMessage("Please configure your Gemini API Key in the source code (bottom of index.html) to use this feature.", 'model');
+        } else {
+          addMessage("I seem to be having trouble connecting. Please try again later.", 'model');
+        }
+      }
+    });
+
+    // 5. Scrollbar Color Transition
+    const updateScrollbarColor = () => {
+      const scrollY = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const scrollFraction = Math.min(Math.max(scrollY / maxScroll, 0), 1);
+
+      // Interpolate between Ocean-700 (#0369a1) and Forest-700 (#15803d)
+      // Ocean-700: R=3, G=105, B=161
+      // Forest-700: R=21, G=128, B=61
+
+      const r = Math.round(3 + (21 - 3) * scrollFraction);
+      const g = Math.round(105 + (128 - 105) * scrollFraction);
+      const b = Math.round(161 + (61 - 161) * scrollFraction);
+
+      const newColor = `rgb(${r}, ${g}, ${b})`;
+      document.documentElement.style.setProperty('--scrollbar-color', newColor);
+    };
+
+    window.addEventListener('scroll', updateScrollbarColor);
+    updateScrollbarColor(); // Initial call
+
+  </script>
+</body>
+
+</html>
